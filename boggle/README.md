@@ -13,3 +13,10 @@ The task is to implement a solver for the game. Given a valid grid of letters an
 
 #Part 2
 Use Jest and write tests for boggle.
+
+
+#Part 3
+Apply the feedback from code reviews
+ - Focus on Readability.
+    If your function and variable names make your code itself easy to read then you have less need for comments
+ - 
