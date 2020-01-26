@@ -75,6 +75,17 @@ function DFS(grid, row, col, visited, word, letter){
     return /\d/.test(myString);
   }
 
+  function isWordValid(word){
+    if(hasNumber(word)){
+        return false
+    }
+    
+    if(word.length < 3){
+        return false
+    }
+    return true
+  }
+
 function findAllSolutions(grid, dictionary){
     valid_words = []
      if(grid == [] || dictionary == []){
@@ -84,13 +95,10 @@ function findAllSolutions(grid, dictionary){
     for ( i = 0; i < dictionary.length; i++ ){ //iterating thru dictionary
         
         word = dictionary[i]; //extracting words
-        if(hasNumber(word)){
+        if(!isWordValid(word)){
             continue
         }
         
-        if(word.length < 3){
-            continue
-        }
 
         starting_points = findStartingPoints(grid,word); // finding the position index pair(s) for first letter of word
 
