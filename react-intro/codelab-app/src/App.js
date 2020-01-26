@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TextInput from './TextInput.js'
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
           XPRSV
         </p>
         <p>Pronounciation: Expressive</p>
+        <TextInput promptText="Name?"/>
+        <TextInput promptText="Hometown?"/>
       </header>
     </div>
   );
