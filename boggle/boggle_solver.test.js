@@ -18,11 +18,13 @@ const findAllSolutions = require('./boggle_solver.js');
  */
 
 describe("Correctness test", () => {
-    test('2x2 grid', () => {
+    
+      test('2x2 grid', () => {
         var grid = [['A', 'B'], ['C', 'D']]
         var dictionary = ['A', 'B', 'AC', 'ACA', 'ACB', 'DE']        
         expect(findAllSolutions.findAllSolutions(grid, dictionary)).toStrictEqual(['ACB']);
       });
+
       test('2x3 grid', () => {
         var grid = [['A', 'B'], ['C', 'D'],['G','P']]
         var dictionary = ['A', 'B', 'AC', 'ACA', 'ACB', 'DE']        
