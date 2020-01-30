@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { lightBlue, green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,21 +11,17 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     marginBottom: 5,
-    color: green
   },
   button: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+
   },
 }));
-/**
- * TODO: 
- * 
- */
-function BoggleGrid() {
-  const classes = useStyles();
 
+const BoggleGrid = (props) => {
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -34,51 +29,51 @@ function BoggleGrid() {
         <Grid container spacing={0}>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[0][0]}</Button>
                 </Paper>     
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[0][1]}</Button>
                 </Paper>   
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[0][2]}</Button>
                 </Paper>     
             </Grid>
         </Grid>
         <Grid container spacing={0}>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[1][0]}</Button>
                 </Paper>     
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[1][1]}</Button>
                 </Paper>   
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[1][2]}</Button>
                 </Paper>     
             </Grid>
         </Grid>
         <Grid container spacing={0}>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[2][0]}</Button>
                 </Paper>     
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[2][1]}</Button>
                 </Paper>   
             </Grid>
             <Grid container item md={4} spacing={0}>
                 <Paper className={classes.paper}>
-                    <Button className={classes.button}>xs</Button>
+                    <Button className={classes.button}>{props.grid[2][2]}</Button>
                 </Paper>     
             </Grid>
         </Grid>
