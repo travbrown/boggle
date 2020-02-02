@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import React, { useState } from 'react';
 import Boggle from './boggle';
 import Button from '@material-ui/core/Button';
@@ -12,7 +13,7 @@ function App() {
 
   function Start(condition){
     if(condition){
-      return <Boggle/>
+      return <Boggle /> ;
     }
     return null;
   }

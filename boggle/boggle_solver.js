@@ -33,7 +33,7 @@ function DFS(grid, row, col, visited, word, letter){
             tile = 'Qu'; // Check the next mention of this variable to understand
         }
 
-        for( offset of offsets ){ // Checking all the neighbours
+        for( const offset of offsets ){ // Checking all the neighbours
             let x = offset[0] + row;
             let y = offset[1] + col;
             

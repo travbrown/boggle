@@ -1,7 +1,7 @@
+/*jshint esversion: 6 */
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +22,7 @@ const BoggleGrid = (props) => {
     return (
       <React.Fragment>
         <Grid item xs={2}>
-            <Paper className={classes.paper}>{row[0]}</Paper>
+            <Paper className={classes.paper}> {row[0]}</Paper>
         </Grid>
         <Grid item xs={2}>
           <Paper className={classes.paper}>{row[1]}</Paper>
