@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Boggle from './components/boggle';
+import Boggle from './boggle';
 import Button from '@material-ui/core/Button';
 import './App.css';
 
