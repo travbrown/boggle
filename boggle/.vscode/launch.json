@@ -5,21 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "type": "node",
             "request": "launch",
-            "name": "Launch localhost",
+            "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "url": "http://localhost:3000/",
-            "webRoot": "${workspaceFolder}/boggle/boggle_web/src/"
-        },
-        {
-            "name": "Launch App.js",
-            "type": "chrome",
-            "request": "launch",
-            "file": "${workspaceFolder}/index.html"
+            "program": "${workspaceFolder}/boggle_solver.js"
         }
-        
     ]
 }
