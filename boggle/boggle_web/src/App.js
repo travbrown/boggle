@@ -40,7 +40,6 @@ function App() {
         <div>
           {Start(show)}
         </div>
-        Boggle mi Bomboclaat
       </header>
     </div>
   );
