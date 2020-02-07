@@ -13,7 +13,7 @@ function App() {
 
   function Start(condition){
     if(condition){
-      return <Boggle /> ;
+      return <Boggle/> ;
     }
     return null;
   }
