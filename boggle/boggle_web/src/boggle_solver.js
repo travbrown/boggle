@@ -4,13 +4,13 @@ function findStartingPoints( grid, word ){
     let starting_points = [];
     
     let searchTile = word[0];
-    if(word[0] == 'Q'){ // To account for the Qu tile
+    if(word[0] === 'Q'){ // To account for the Qu tile
         searchTile = 'Qu';
     }
 
     for( let gridRow = 0; gridRow < grid.length; gridRow++ ){
         for( let gridCol = 0; gridCol < grid.length; gridCol++ ){
-            if(grid[gridRow][gridCol] == searchTile){
+            if(grid[gridRow][gridCol] === searchTile){
                 starting_points.push([gridRow,gridCol]);
             }
         }
@@ -18,41 +18,46 @@ function findStartingPoints( grid, word ){
     return starting_points;
 }
 
-function DFS(grid, row, col, visited, word, letter){
+function DFS(grid, row, col, visited, word, letter, found){
+        if(found){
+            return found;
+        }
+
         let offsets = [[-1,-1], [-1,0], [-1,1],
         [0,-1], [0,1],[1,-1],[1,0],[1,1]];
 
         visited[row][col] = true;
 
-        if(word[letter] == 'u'){ // skip to next letter
-            letter += 1;
-        }
+        
 
-        let tile = word[letter]; 
-        if(tile == 'Q'){ // Ensuring we matching Qu with Qu & not Q with Qu 
-            tile = 'Qu'; // Check the next mention of this variable to understand
-        }
-
-        for(const offset of offsets ){ // Checking all the neighbours
+        for( const offset of offsets ){ // Checking all the neighbours
             let x = offset[0] + row;
             let y = offset[1] + col;
             
-            
+            if(word[letter] === 'u'){ // skip to next letter
+                letter += 1;
+            }
+    
+            let tile = '';
+            tile = word[letter]; 
+            if(tile === 'Q'){ // Ensuring we matching Qu with Qu & not Q with Qu 
+                tile = 'Qu'; // Check the next mention of this variable to understand
+            }
             if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length){ // If within range
                 
                 if (visited[x][y]){
                     continue;
                 }
-                if(tile == grid[x][y]){ // if we have found the letter
+                if(tile === grid[x][y]){ // if we have found the letter
                         
-                    if(letter == word.length-1){ // if we have found the last letter
+                    if(letter === word.length-1){ // if we have found the last letter
                         //console.log('the last letter: ', tile);
                         
                         found = true; // then tell em, we found it
                         break; // break out from checking other pairs if we found it
                     }
 
-                    if(tile == 'Qu' && letter == word.length-2){
+                    if(tile === 'Qu' && letter === word.length-2){
                         //console.log('the last letter: ', tile);
                         
                         found = true; // then tell em, we found it
@@ -61,10 +66,11 @@ function DFS(grid, row, col, visited, word, letter){
 
                     letter += 1;
                     //if(word[letter] == 'u'){letter += 1}
-                    DFS(grid, x,y,visited, word, letter); // then go deeper and keep looking for the rest
+                    found = DFS(grid, x,y,visited, word, letter); // then go deeper and keep looking for the rest
                 }                
             }
         }
+        return found;
  }
 
   function isWordValid(word){
@@ -76,12 +82,11 @@ function DFS(grid, row, col, visited, word, letter){
 
 function findAllSolutions(grid, dictionary){
     let valid_words = [];
-     if(grid == [] || dictionary == []){
+     if(grid === [] || dictionary === []){
         return [];
      }
     
     for (const word of dictionary ){ //iterating thru dictionary
-        
         if(!isWordValid(word)){
             continue;
         }
@@ -89,7 +94,7 @@ function findAllSolutions(grid, dictionary){
 
         const starting_points = findStartingPoints(grid,word); // finding the position index pair(s) for first letter of word
 
-        if(starting_points == []){ //if no starting_points, move on to the next word
+        if(starting_points === []){ //if no starting_points, move on to the next word
             continue;
         }
 
@@ -103,9 +108,9 @@ function findAllSolutions(grid, dictionary){
                 }
             }
             
-            found = false; // init found to false for each point we check for the word
+            let found = false; // init found to false for each point we check for the word
 
-            DFS(grid, starting_point[0], starting_point[1], visited, word, 1); // Diving in
+            found = DFS(grid, starting_point[0], starting_point[1], visited, word, 1, found); // Diving in
             
             if(found){ // break from checking the other starting points if word is found
                 valid_words.push(word);
@@ -116,6 +121,5 @@ function findAllSolutions(grid, dictionary){
     
     return valid_words;
 }
-
 
 exports.findAllSolutions = findAllSolutions;
