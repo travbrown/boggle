@@ -63,23 +63,20 @@ export const Boggle = () => {
 
     const validateUserAnswer = (event) => {
         if(event.key === 'Enter'){
-            let listForUserFoundWords = [];
             let givenDict = dict.words;
             let letterCaseMatchedText = matchUserInputLetterCaseToGrid(text);
             let potentialUserFoundWord = BoggleSolver.findAllSolutions(grid,letterCaseMatchedText);
-            debugger;
+            //debugger;
             if(potentialUserFoundWord === []){
                 console.log('This word is not in the grid');
             }else{                 
                 if(givenDict.includes(text.toLowerCase())){
                     console.log('USER ANSWER VALIDATED');
-                    if(userFoundWords.includes(potentialUserFoundWord)){
+                    if(userFoundWords.includes(potentialUserFoundWord[0])){
                         console.log('You already found this word (print this to the webpage)');
                     }else{
                         console.log('Yay new word');
-                        listForUserFoundWords.push(potentialUserFoundWord[0]);
-                        console.log(listForUserFoundWords);
-                        setUserFoundWords(listForUserFoundWords);
+                        setUserFoundWords([...userFoundWords, potentialUserFoundWord[0]]);
                     }          
                 }else{
                     console.log('Badman a weh yah do, dis look like one word to yuh');
@@ -105,6 +102,7 @@ export const Boggle = () => {
             </div>
 
             <TextField onKeyPress={(event) => validateUserAnswer(event)} onChange={(event) => setText(event.target.value)} />
+            {userFoundWords}
             {/* <ul>
                 {validWords.map((word) =>{
                     <li>{word}</li>
