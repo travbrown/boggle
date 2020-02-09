@@ -11,6 +11,7 @@ export const Boggle = () => {
     
     const RandomizeBoard = () => {
         var grid = RandomGrid();
+        setUserFoundWords([]);
         randomizeGrid(grid);      
     };
     
@@ -48,14 +49,14 @@ export const Boggle = () => {
         text = text.toUpperCase();
     
         if(text.indexOf('Q') !== -1){
-            let listOfText = text.split("");
+            let listOfTextLetters = text.split("");
             for( let i = 0 ; i < text.length; i++){
                 if(previousLetter === 'Q'){
-                    listOfText[i] = text[i].toLowerCase();
+                    listOfTextLetters[i] = text[i].toLowerCase();
                 }
                 previousLetter = text[i];
             }
-            text = listOfText.join('');
+            text = listOfTextLetters.join('');
         }
         upperCasedText.push(text);
         return upperCasedText;
@@ -68,18 +69,16 @@ export const Boggle = () => {
             let potentialUserFoundWord = BoggleSolver.findAllSolutions(grid,letterCaseMatchedText);
             //debugger;
             if(potentialUserFoundWord === []){
-                console.log('This word is not in the grid');
+                alert('This word is not in the grid');
             }else{                 
                 if(givenDict.includes(text.toLowerCase())){
-                    console.log('USER ANSWER VALIDATED');
                     if(userFoundWords.includes(potentialUserFoundWord[0])){
-                        console.log('You already found this word (print this to the webpage)');
+                        alert('You already found this word');
                     }else{
-                        console.log('Yay new word');
                         setUserFoundWords([...userFoundWords, potentialUserFoundWord[0]]);
                     }          
                 }else{
-                    console.log('Badman a weh yah do, dis look like one word to yuh');
+                    alert('We do not recognize this word.');
                 }
             }
         }
@@ -103,11 +102,6 @@ export const Boggle = () => {
 
             <TextField onKeyPress={(event) => validateUserAnswer(event)} onChange={(event) => setText(event.target.value)} />
             {userFoundWords}
-            {/* <ul>
-                {validWords.map((word) =>{
-                    <li>{word}</li>
-                })}
-            </ul> */}
             
         </div>
     );
