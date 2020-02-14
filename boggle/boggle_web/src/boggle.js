@@ -1,22 +1,35 @@
 /*jshint esversion: 6 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import BoggleGrid from './boggle_grid';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import BoggleSolver from './boggle_solver';
 var dict = require('./full-wordlist.json');
 
-export const Boggle = () => {
+export const Boggle = (props) => {
     
-    const RandomizeBoard = () => {
-        var grid = RandomGrid();
+    const setBoard = () => {
+        let grid;
+        if(props.loadedOrRandom === 'Loaded'){
+            grid = loadGrid();
+        }else{
+            grid = RandomGrid();
+        }
+
         setUserFoundWords([]);
-        randomizeGrid(grid);      
-    };
+        setCurrentScore(0);
+        setGrid(grid);      
+    };    
     
     // Returns a random 5x5 board, using the official letter distribution.
     const RandomGrid = () => {
+        let grid = [];
+        if(props.loadedOrRandom === 'Loaded'){
+            grid = loadGrid();
+            
+            return grid;
+        }
         // prettier-ignore
         const dice = ["AAAFRS", "AAEEEE", "AAFIRS", "ADENNN", "AEEEEM",
                     "AEEGMU", "AEGMNN", "AFIRSY", "BJKQXZ", "CCNSTW",
@@ -27,7 +40,7 @@ export const Boggle = () => {
         chars.sort(() => Math.random() - 0.5); // Shuffle the letters.
     
         const SIZE = 5;
-        let grid = [];
+        
         for (let row = 0; row < SIZE; row++) {
             grid[row] = [];
             for (let col = 0; col < SIZE; ++col) {
@@ -36,6 +49,23 @@ export const Boggle = () => {
             }
         }   
         return grid;
+    };
+    const [showBoggle, setShowBoggle] = useState(false);
+
+    const loadGrid = () =>{
+        if(props.loadedOrRandom === 'Loaded'){
+            let chars = props.loadedBoards[props.selectedChallenge-1].split('');
+            const SIZE = 5;
+            let gameBoard = [];
+            for (let row = 0; row < SIZE; row++) {
+                gameBoard[row] = [];
+                for (let col = 0; col < SIZE; ++col) {
+                    gameBoard[row][col] = chars[SIZE * row + col];
+                    if (gameBoard[row][col] === "Q") gameBoard[row][col] = "Qu";
+                }
+            }
+            return gameBoard;
+        }
     };
 
     /**
@@ -76,6 +106,8 @@ export const Boggle = () => {
                         alert('You already found this word');
                     }else{
                         setUserFoundWords([...userFoundWords, potentialUserFoundWord[0]]);
+                        let updatedScore = currentScore + 1;
+                        setCurrentScore(updatedScore);
                     }          
                 }else{
                     alert('We do not recognize this word.');
@@ -84,26 +116,69 @@ export const Boggle = () => {
         }
     };
 
+    const toggleVisibility = () => {
+    
+        if(props.loadedOrRandom === 'Random'){
+            if(showBoggle){
+                setRandomPlayButtonText('Start New Game');
+            }else{
+                setRandomPlayButtonText('Stop');
+            }
+            setShowBoggle(!showBoggle);
+        }else{
+            if(challengeButtonText === 'Stop'){
+                setChallengeButtonText('Start');
+                props.setLoadedOrRandom('Random');
+            }else{
+                setChallengeButtonText('Stop');
+                props.setLoadedOrRandom('Loaded');
+                
+            }
+        }
 
-//    const displayValidWordsToUser = (arrOfText) => {   };
+    };
 
-    const [text, setText] = useState(/*initial state=*/"");
-    const [grid, randomizeGrid] = useState(RandomGrid());
+   
+    
+
+    const [text, setText] = useState("");
+    const [grid, setGrid] = useState(props.loadedOrRandom === 'Random'? RandomGrid(): loadGrid());
+    const [randomPlayButtonText, setRandomPlayButtonText] = useState('Start New Game');
+    const [challengeButtonText, setChallengeButtonText] = useState('Stop');
     const [userFoundWords, setUserFoundWords] = useState([]);
+    const [currentScore,setCurrentScore] = useState(0);
     
     return (
         <div>
-            <Button onClick={()=> RandomizeBoard()}>
-                Randomize
-            </Button>
-            <div >
-                <BoggleGrid grid={grid}/>
-            </div>
+            { props.loadedOrRandom === 'Random' &&
+                <Button onClick ={ () => toggleVisibility()}>
+                    {randomPlayButtonText}
+                </Button>
+            }
 
-            <TextField onKeyPress={(event) => validateUserAnswer(event)} onChange={(event) => setText(event.target.value)} />
-            {userFoundWords}
-            
-        </div>
+            { (showBoggle === true || props.loadedOrRandom === 'Loaded') &&
+                <div>
+                    { (props.loadedOrRandom === 'Loaded' && challengeButtonText === 'Stop') &&
+                        <Button onClick ={ () => toggleVisibility()}>
+                            {challengeButtonText}
+                        </Button>
+                    }
+
+                    { props.loadedOrRandom === 'Random' && 
+                        <Button onClick={()=> setBoard()}>
+                            Randomize
+                        </Button>
+                    }
+
+                    <BoggleGrid grid={grid}></BoggleGrid>
+                    
+                    
+                    {currentScore}
+                    <TextField onKeyPress={(event) => validateUserAnswer(event)} onChange={(event) => setText(event.target.value)} />
+                    {userFoundWords}  
+                </div>
+            }
+        </div>    
     );
 }
 export default Boggle;
