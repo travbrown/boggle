@@ -1,4 +1,3 @@
 # BOGGLE
 
-This repo is a collection of all our work in Software Development class
-
+Boggle Board Game as a Web App
