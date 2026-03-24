@@ -3,3 +3,10 @@ boggle/node_modules
 boggle/coverage/
 boggle_solver.tar.gz
 .DS_Store
+
+# Secrets & credentials
+.env*
+*.key
+*.pem
+credentials*
+secrets*
